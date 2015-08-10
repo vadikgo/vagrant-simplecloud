@@ -21,14 +21,21 @@ module VagrantPlugins
           guest_name ||= @machine.guest.to_s.downcase
 
           case guest_name
-          when /redhat/
-            env[:ui].info I18n.t('vagrant_simple_cloud.info.modifying_sudo')
-
-            # disable tty requirement for sudo
-            @machine.communicate.execute(<<-'BASH')
-              sed -i'.bk' -e 's/\(Defaults\s\+requiretty\)/# \1/' /etc/sudoers
-            BASH
-          end
+            when /redhat/
+                @machine.communicate.execute('yum install sudo')
+                env[:ui].info I18n.t('vagrant_simple_cloud.info.modifying_sudo')
+                # disable tty requirement for sudo
+                @machine.communicate.execute(<<-'BASH')
+                  sed -i'.bk' -e 's/\(Defaults\s\+requiretty\)/# \1/' /etc/sudoers
+                BASH
+            when /debian/
+                @machine.communicate.execute('apt-get install sudo')
+                env[:ui].info I18n.t('vagrant_simple_cloud.info.modifying_sudo')
+                # disable tty requirement for sudo
+                @machine.communicate.execute(<<-'BASH')
+                  sed -i'.bk' -e 's/\(Defaults\s\+requiretty\)/# \1/' /etc/sudoers
+                BASH
+              end
 
           # reset ssh username
           @machine.config.ssh.username = user
