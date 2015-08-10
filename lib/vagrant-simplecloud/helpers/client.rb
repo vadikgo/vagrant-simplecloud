@@ -2,6 +2,9 @@ require 'vagrant-simplecloud/helpers/result'
 require 'faraday'
 require 'json'
 require 'droplet_kit'
+require 'uri'
+require 'net/http'
+require 'net/https'
 
 module VagrantPlugins
   module SimpleCloud
@@ -16,6 +19,19 @@ module VagrantPlugins
       end
       class SimpleClient < DropletKit::Client
           include Vagrant::Util::Retryable
+
+          def post(path, params = {})
+                uri = URI.parse("#{connection_options[:url]}#{path}")
+                https = Net::HTTP.new(uri.host,uri.port)
+                https.use_ssl = true
+                req = Net::HTTP::Post.new(uri.path)
+                req['Content-Type'] = connection_options[:headers][:content_type]
+                req['Authorization'] = connection_options[:headers][:authorization]
+                req.set_form_data(params)
+                res = https.request(req)
+                #puts "Response #{res.code} #{res.message}: #{res.body}"
+                JSON.parse(res.body)
+          end
 
           def wait_for_event(env, id)
             retryable(:tries => 120, :sleep => 10) do

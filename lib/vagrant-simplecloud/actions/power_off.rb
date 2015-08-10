@@ -10,14 +10,13 @@ module VagrantPlugins
           @app = app
           @machine = env[:machine]
           @client = client
+          @simple_client = simple_client
           @logger = Log4r::Logger.new('vagrant::simplecloud::power_off')
         end
 
         def call(env)
           # submit power off droplet request
-          result = @client.post("/v2/droplets/#{@machine.id}/actions", {
-            :type => 'power_off'
-          })
+          result = @simple_client.post("/v2/droplets/#{@machine.id}/actions", {:type => 'power_off'})
 
           # wait for request to complete
           env[:ui].info I18n.t('vagrant_simple_cloud.info.powering_off')
@@ -32,4 +31,3 @@ module VagrantPlugins
     end
   end
 end
-

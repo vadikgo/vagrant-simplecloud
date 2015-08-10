@@ -16,8 +16,7 @@ module VagrantPlugins
 
         def call(env)
           # submit shutdown droplet request
-          #result = @client.request("/droplets/#{@machine.id}/shutdown")
-          result = JSON.parse(@simple_client.droplet_actions.shutdown(droplet_id: @machine.id.to_s))
+          result = @simple_client.post("/v2/droplets/#{@machine.id}/actions", {:type => 'shutdown'})
 
           # wait for request to complete
           env[:ui].info I18n.t('vagrant_simple_cloud.info.shutting_down')
