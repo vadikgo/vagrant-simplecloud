@@ -7,6 +7,5 @@ gem 'rake'
 group :plugins do
   gem 'vagrant-omnibus'
 #  gem 'vagrant-simplecloud', :path => '.'
-gemspec
+  gemspec
 end
-

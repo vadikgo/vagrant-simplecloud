@@ -35,12 +35,12 @@ Vagrant.configure('2') do |config|
   config.vm.provider :simple_cloud do |provider, override|
     override.ssh.private_key_path = '~/.ssh/id_rsa'
     override.vm.box = 'simple_cloud'
-    override.vm.box_url = "https://github.com/smdahlen/vagrant-simplecloud/raw/master/box/simple_cloud.box"
+    override.vm.box_url = "https://github.com/vadikgo/vagrant-simplecloud/raw/master/box/simple_cloud.box"
 
     provider.token = 'YOUR TOKEN'
-    provider.image = 'ubuntu-14-04-x64'
-    provider.region = 'nyc2'
-    provider.size = '512mb'
+    provider.image = '123'
+    provider.region = 'base'
+    provider.size = '1'
   end
 end
 ```
@@ -58,7 +58,7 @@ The following attributes are available to further configure the provider:
 - `provider.ipv6`
     * A boolean flag indicating whether to enable IPv6
 - `provider.region`
-    * A string representing the region to create the new droplet in. It defaults to `nyc2`. List available regions with the `simplecloud-list regions $DIGITAL_OCEAN_TOKEN` command.
+    * A string representing the region to create the new droplet in. It defaults to `base`. List available regions with the `simplecloud-list regions $DIGITAL_OCEAN_TOKEN` command.
 - `provider.size`
     * A string representing the size to use when creating a new droplet (e.g. `1gb`). It defaults to `512mb`. List available sizes with the `simplecloud-list sizes $DIGITAL_OCEAN_TOKEN` command.
 - `provider.private_networking`
@@ -138,7 +138,7 @@ To release a new version of vagrant-simplecloud you will need to do the followin
 1. First, create a tag and push:
     * `git tag -a v0.7.6 -m 'v0.7.6'`
 2. Then, create a release on Github with the same versioning convention:
-    * https://github.com/smdahlen/vagrant-simplecloud/releases
+    * https://github.com/vadikgo/vagrant-simplecloud/releases
 3. You will then need to build and push the new gem to RubyGems:
     * `rake gem:build`
     * `gem push pkg/vagrant-simplecloud-0.7.6.gem`
