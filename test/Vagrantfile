@@ -26,11 +26,12 @@ Vagrant.configure('2') do |config|
     chef.add_recipe 'test'
   end
 
-  #config.vm.define :ubuntu do |ubuntu|
-    #ubuntu.vm.provider :simple_cloud do |provider|
-      #provider.image = 'ubuntu-14-04-x64'
-    #end
-  #end
+  config.vm.define :debian do |debian|
+      debian.vm.hostname = "vagrant-debian-test"
+      debian.vm.provider :simple_cloud do |provider|
+          provider.image = '123'
+      end
+  end
 
   #config.vm.define :centos do |centos|
     #centos.vm.provider :simple_cloud do |provider|
