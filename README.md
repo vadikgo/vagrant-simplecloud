@@ -101,7 +101,7 @@ The provider supports the following Vagrant sub-commands:
 Troubleshooting
 ---------------
 
-* `vagrant plugin install vagrant-simplecloud` 
+* `vagrant plugin install vagrant-simplecloud`
     * Installation on OS X may not working due to a SSL certificate problem, and you may need to specify a certificate path explicitly. To do so, run `ruby -ropenssl -e "p OpenSSL::X509::DEFAULT_CERT_FILE"`. Then, add the following environment variable to your `.bash_profile` script and `source` it: `export SSL_CERT_FILE=/usr/local/etc/openssl/cert.pem`.
 
 
@@ -123,7 +123,8 @@ To contribute, fork then clone the repository, and then the following:
 3. Then install vagrant-simplecloud dependancies:
     * `bundle _1.7.9_ install`
 4. Do your development and run a few commands, one to get started would be:
-    * `bundle _1.7.9_ exec vagrant simplecloud-list images`
+    * DO_TOKEN="digital ocean token"
+    * `VAGRANT_LOG=info bundle _1.7.9_ exec vagrant simplecloud-list images $DO_TOKEN`
 5. You can then run a test:
     * `bundle _1.7.9_ exec rake test`
 6. Once you are satisfied with your changes, please submit a pull request.

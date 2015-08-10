@@ -28,7 +28,7 @@ module VagrantPlugins
           env[:ui].info I18n.t('vagrant_simple_cloud.info.creating')
 
           raise 'droplet not ready, no actions_ids' unless result['droplet'].has_key?('action_ids')
-          @simple_client.wait_for_event(env, result['droplet']['action_ids'].first)
+          @client.wait_for_event(env, result['droplet']['action_ids'].first)
 
           # assign the machine id for reference in other commands
           @machine.id = result['droplet']['id'].to_s
