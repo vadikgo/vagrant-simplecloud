@@ -9,22 +9,26 @@ module VagrantPlugins
       # may be refreshed by passing :refresh => true as an option.
       def self.droplet(machine, opts = {})
         client = Helpers::ApiClient.new(machine)
+        simple_client = Helpers::SimpleClient.new(access_token: machine.provider_config.token)
 
         # load status of droplets if it has not been done before
         if !@droplets
-          result = client.request('/v2/droplets')
-          @droplets = result['droplets']
+          #result = client.request('/v2/droplets')
+          #@droplets = result['droplets']
+          @droplets = simple_client.droplets.all
         end
 
-        if opts[:refresh] && machine.id
-          # refresh the droplet status for the given machine
-          @droplets.delete_if { |d| d['id'].to_s == machine.id }
-          result = client.request("/v2/droplets/#{machine.id}")
-          @droplets << droplet = result['droplet']
-        else
-          # lookup droplet status for the given machine
-          droplet = @droplets.find { |d| d['id'].to_s == machine.id }
-        end
+        droplet = simple_client.droplets.find(id: machine.id)
+
+    #    if opts[:refresh] && machine.id
+    #      # refresh the droplet status for the given machine
+    #      @droplets.delete_if { |d| d['id'].to_s == machine.id }
+    #      result = client.request("/v2/droplets/#{machine.id}")
+    #      @droplets << droplet = result['droplet']
+    #    else
+    #      # lookup droplet status for the given machine
+    #      droplet = @droplets.find { |d| d['id'].to_s == machine.id }
+    #    end
 
         # if lookup by id failed, check for a droplet with a matching name
         # and set the id to ensure vagrant stores locally
@@ -93,7 +97,8 @@ module VagrantPlugins
       # The state must be an instance of {MachineState}. Please read the
       # documentation of that class for more information.
       def state
-        state = Provider.droplet(@machine)['status'].to_sym
+        state = Provider.droplet(@machine)['status']
+        state = 'not_created' unless state
         long = short = state.to_s
         Vagrant::MachineState.new(state, short, long)
       end

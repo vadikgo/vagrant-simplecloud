@@ -1,7 +1,7 @@
 Vagrant.configure('2') do |config|
 
-  config.vm.define :debian8 do |debian8|
-    debian8.vm.hostname = "swift8"
+  config.vm.define :swift8 do |swift8|
+    swift8.vm.hostname = "swift8"
   end
 
   config.vm.provider :simple_cloud do |provider, override|

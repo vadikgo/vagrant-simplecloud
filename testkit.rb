@@ -15,7 +15,13 @@ class SimpleClient < DropletKit::Client
 end
 
 client = SimpleClient.new(access_token: token)
-droplet = DropletKit::Droplet.new(name: 'test', region: 'base', size: '1', image: '123')
-res = JSON.parse(client.droplets.create(droplet))
-p res['droplet'].has_key?('created_at')
-p res['droplet']['created_at']
+#droplet = DropletKit::Droplet.new(name: 'test', region: 'base', size: '1', image: '123')
+#res = JSON.parse(client.droplets.create(droplet))
+#p res['droplet']['created_at']
+
+#droplets = client.droplets.all
+
+#droplet = droplets.find{ |d| d['id'].to_s == '31463'  }
+#puts droplet['name'] if droplet
+
+puts client.droplets.find(id: 31464).status
