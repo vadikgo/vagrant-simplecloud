@@ -11,20 +11,24 @@ module VagrantPlugins
           @app = app
           @machine = env[:machine]
           @client = client
+          @simple_client = simple_client
           @logger = Log4r::Logger.new('vagrant::simplecloud::rebuild')
         end
 
         def call(env)
           # look up image id
-          image_id = @client
-            .request('/v2/images')
-            .find_id(:images, :slug => @machine.provider_config.image)
+          #image_id = @client
+            #.request('/v2/images')
+            #.find_id(:images, :slug => @machine.provider_config.image)
 
           # submit rebuild request
-          result = @client.post("/v2/droplets/#{@machine.id}/actions", {
-            :type => 'rebuild',
-            :image => image_id
-          })
+          #result = @client.post("/v2/droplets/#{@machine.id}/actions", {
+            #:type => 'rebuild',
+            #:image => image_id
+          #})
+          image_id = @simple_client.images.find(id: @machine.provider_config.image).id
+          env[:ui].info "#{@machine.id.to_s}, #{image_id}"
+          result = JSON.parse(@simple_client.droplet_actions.rebuild(droplet_id: @machine.id, image: image_id))
 
           # wait for request to complete
           env[:ui].info I18n.t('vagrant_simple_cloud.info.rebuilding')

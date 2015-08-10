@@ -24,4 +24,4 @@ client = SimpleClient.new(access_token: token)
 #droplet = droplets.find{ |d| d['id'].to_s == '31463'  }
 #puts droplet['name'] if droplet
 
-puts client.droplets.find(id: 31464).status
+puts client.droplet_actions.rebuild(droplet_id: 31473, image: '123')
