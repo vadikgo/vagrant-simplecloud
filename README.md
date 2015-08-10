@@ -123,7 +123,7 @@ To contribute, fork then clone the repository, and then the following:
 3. Then install vagrant-simplecloud dependancies:
     * `bundle _1.7.9_ install`
 4. Do your development and run a few commands, one to get started would be:
-    * DO_TOKEN="digital ocean token"
+    * `DO_TOKEN="digital ocean token"`
     * `VAGRANT_LOG=info bundle _1.7.9_ exec vagrant simplecloud-list images $DO_TOKEN`
 5. You can then run a test:
     * `bundle _1.7.9_ exec rake test`
