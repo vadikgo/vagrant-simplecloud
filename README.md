@@ -33,7 +33,7 @@ Vagrant.configure('2') do |config|
     override.vm.box = 'simple_cloud'
     override.vm.box_url = "https://github.com/vadikgo/vagrant-simplecloud/raw/master/box/simple_cloud.box"
 
-    provider.token = 'YOUR TOKEN'
+    provider.token = ENV['DO_TOKEN']
     provider.image = '123'
     provider.region = 'base'
     provider.size = '1'
@@ -119,7 +119,7 @@ To contribute, fork then clone the repository, and then the following:
 3. Then install vagrant-simplecloud dependancies:
     * `bundle _1.7.9_ install`
 4. Do your development and run a few commands, one to get started would be:
-    * `DO_TOKEN="digital ocean token"`
+    * `export DO_TOKEN="digital ocean type token"`
     * `VAGRANT_LOG=info bundle _1.7.9_ exec vagrant simplecloud-list images $DO_TOKEN`
 5. You can then run a test:
     * `bundle _1.7.9_ exec rake test`
