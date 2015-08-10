@@ -1,0 +1,40 @@
+#Vagrant.require_plugin('vagrant-simplecloud')
+#Vagrant.require_plugin('vagrant-omnibus')
+
+Vagrant.configure('2') do |config|
+  config.omnibus.chef_version = :latest
+
+  #config.ssh.username = 'tester'
+  config.ssh.private_key_path = 'test_id_rsa'
+
+  config.vm.synced_folder '.', '/vagrant', :disabled => true
+
+  config.vm.provider :simple_cloud do |provider, override|
+    override.vm.box = 'simple_cloud'
+    override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
+    provider.token = ENV['DO_TOKEN']
+    provider.ssh_key_name = 'Test Key'
+    provider.image = '123'
+    provider.region = 'base'
+    provider.size = "1"
+  end
+
+  config.vm.provision :shell, :path => 'scripts/provision.sh'
+
+  config.vm.provision :chef_solo do |chef|
+    chef.cookbooks_path = 'cookbooks'
+    chef.add_recipe 'test'
+  end
+
+  #config.vm.define :ubuntu do |ubuntu|
+    #ubuntu.vm.provider :simple_cloud do |provider|
+      #provider.image = 'ubuntu-14-04-x64'
+    #end
+  #end
+
+  #config.vm.define :centos do |centos|
+    #centos.vm.provider :simple_cloud do |provider|
+      #provider.image = 'centos-6-5-x64'
+    #end
+  #end
+end

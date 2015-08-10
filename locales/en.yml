@@ -1,0 +1,90 @@
+en:
+  vagrant_simple_cloud:
+    info:
+      off: "Droplet is off"
+      not_created: "Droplet has not been created"
+      already_active: "Droplet is already active"
+      already_off: "Droplet is already off"
+      creating: "Creating a new droplet..."
+      droplet_ip: "Assigned IP address: %{ip}"
+      droplet_private_ip: "Private IP address: %{ip}"
+      destroying: "Destroying the droplet..."
+      shutting_down: "Shutting down the droplet..."
+      powering_off: "Powering off the droplet..."
+      powering_on: "Powering on the droplet..."
+      rebuilding: "Rebuilding the droplet..."
+      reloading: "Rebooting the droplet..."
+      creating_user: "Creating user account: %{user}..."
+      modifying_sudo: "Modifying sudoers file to remove tty requirement..."
+      using_key: "Using existing SSH key: %{name}"
+      creating_key: "Creating new SSH key: %{name}..."
+      trying_rsync_install: "Rsync not found, attempting to install with yum..."
+      rsyncing: "Rsyncing folder: %{hostpath} => %{guestpath}..."
+      rsync_missing: "The rsync executable was not found in the current path."
+      images: "Description                                        Slug                           ID\n\n%{images}"
+      images_with_regions: "Description                                        Slug                 ID                 Regions\n\n%{images}"
+      regions: "Description                    Slug\n\n%{regions}"
+      sizes: "Memory          CPUs            Slug\n\n%{sizes}"
+      list_error: 'Could not contact the Simple Cloud API: %{message}'
+    config:
+      token: "Token is required"
+      private_key: "SSH private key path is required"
+      public_key: "SSH public key not found: %{key}"
+    errors:
+      public_key: |-
+        There was an issue reading the public key at:
+
+        Path: %{path}
+
+        Please check the file's permissions.
+      api_status: |-
+        There was an issue with the request made to the Simple Cloud
+        API at:
+
+        Path: %{path}
+        URI Params: %{params}
+
+        The response status from the API was:
+
+        Status: %{status}
+        Response: %{response}
+      rsync: |-
+        There was an error when attemping to rsync a share folder.
+        Please inspect the error message below for more info.
+
+        Host path: %{hostpath}
+        Guest path: %{guestpath}
+        Error: %{stderr}
+      json: |-
+        There was an issue with the JSON response from the Simple Cloud
+        API at:
+
+        Path: %{path}
+        URI Params: %{params}
+
+        The response JSON from the API was:
+
+        Response: %{response}
+      result_match: |-
+        The result collection for %{collection_name}:
+
+        %{sub_obj}
+
+        Contained no object with the value "%{value}" for the the
+        key "%{key}".
+
+        Please ensure that the configured value exists in the collection.
+      certificate: |-
+        The secure connection to the Simple Cloud API has failed. Please
+        ensure that your local certificates directory is defined in the
+        provider config.
+
+            config.vm.provider :simple_cloud do |vm|
+              vm.ca_path = "/path/to/ssl/ca/cert.crt"
+            end
+
+        This is generally caused by the OpenSSL configuration associated
+        with the Ruby install being unaware of the system specific ca
+        certs.
+      local_ip: |-
+        The Simple Cloud provider was unable to determine the host's IP.
