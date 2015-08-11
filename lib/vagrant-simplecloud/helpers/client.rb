@@ -29,8 +29,8 @@ module VagrantPlugins
                 req['Authorization'] = connection_options[:headers][:authorization]
                 req.set_form_data(params)
                 res = https.request(req)
-                unless /^2\d\d$/ =~ result.code.to_s
-                  raise "Server response error #{result.code} #{path} #{params} #{result.message} #{result.body}"
+                unless /^2\d\d$/ =~ res.code.to_s
+                  raise "Server response error #{res.code} #{path} #{params} #{res.message} #{res.body}"
                 end
                 JSON.parse(res.body)
           end
