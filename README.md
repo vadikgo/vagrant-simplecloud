@@ -43,7 +43,7 @@ end
 
 **Configuration Requirements**
 - You *must* specify the `override.ssh.private_key_path` to enable authentication with the droplet. The provider will create a new Simple Cloud SSH key using your public key which is assumed to be the `private_key_path` with a *.pub* extension.
-- You *must* specify your Simple Cloud Personal Access Token at `provider.token`. This may be found on the control panel within the *Apps &amp; API* section.
+- You *must* specify your Simple Cloud Personal Access Token at `provider.token`. This may be found on the control panel within the https://panel.simplecloud.ru/settings/ section.
 
 **Supported Configuration Attributes**
 
@@ -104,7 +104,7 @@ Troubleshooting
 FAQ
 ---
 
-* The Chef provisioner is no longer supported by default (as of 0.2.0). Please use the `vagrant-omnibus` plugin to install Chef on Vagrant-managed machines. This plugin provides control over the specific version of Chef to install.
+* The Chef provisioner is no longer supported by default. Please use the `vagrant-omnibus` plugin to install Chef on Vagrant-managed machines. This plugin provides control over the specific version of Chef to install.
 
 
 Contribute
@@ -140,6 +140,5 @@ To release a new version of vagrant-simplecloud you will need to do the followin
     * `gem push pkg/vagrant-simplecloud-0.7.6.gem`
 4. Then, when John Doe runs the following, they will receive the updated vagrant-simplecloud plugin:
     * `vagrant plugin update`
-    * `vagrant plugin update vagrant-simplecloud`
     * `export DO_TOKEN="digital ocean type token"`
     * `vagrant up --provider=simple_cloud`
