@@ -11,7 +11,7 @@ Features include:
 - setup a SSH public key for authentication
 - create a new user account during droplet creation
 
-The provider has been tested with Vagrant 1.1.5+ using Ubuntu 12.04 and CentOS 6.3 guest operating systems.
+The provider has been tested with Vagrant 1.1.5+ using Debian 8 guest operating systems.
 
 
 Install
@@ -49,14 +49,14 @@ end
 
 The following attributes are available to further configure the provider:
 - `provider.image`
-    * A string representing the image to use when creating a new droplet. It defaults to `ubuntu-14-04-x64`.
-    List available images with the `simplecloud-list images $DIGITAL_OCEAN_TOKEN` command. Like when using the SimpleCloud API directly, [it can be an image ID or slug](http://simplecloud.ru/features/api-manual/#_Create-new-VPS).
+    * A string representing the image to use when creating a new droplet. It defaults to `123`.
+    List available images with the `simplecloud-list images $DO_TOKEN` command. Like when using the SimpleCloud API directly, [it can be an image ID or slug](http://simplecloud.ru/features/api-manual/#_Create-new-VPS).
 - `provider.ipv6`
     * A boolean flag indicating whether to enable IPv6
 - `provider.region`
-    * A string representing the region to create the new droplet in. It defaults to `base`. List available regions with the `simplecloud-list regions $DIGITAL_OCEAN_TOKEN` command.
+    * A string representing the region to create the new droplet in. It defaults to `base`. List available regions with the `simplecloud-list regions $DO_TOKEN` command.
 - `provider.size`
-    * A string representing the size to use when creating a new droplet (e.g. `1gb`). It defaults to `512mb`. List available sizes with the `simplecloud-list sizes $DIGITAL_OCEAN_TOKEN` command.
+    * A string representing the size to use when creating a new droplet (e.g. `1`). It defaults to `1`. List available sizes with the `simplecloud-list sizes $DO_TOKEN` command.
 - `provider.private_networking`
     * A boolean flag indicating whether to enable a private network interface (if the region supports private networking). It defaults to `false`.
 - `provider.backups_enabled`
