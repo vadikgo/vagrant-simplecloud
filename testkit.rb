@@ -11,9 +11,12 @@ class SimpleClient < DropletKit::Client
           req['Content-Type'] = connection_options[:headers][:content_type]
           req['Authorization'] = connection_options[:headers][:authorization]
           req.set_form_data(params)
-          res = https.request(req)
-          puts "Response #{res.code} #{res.message}: #{res.body}"
-          JSON.parse(res.body)
+          result = https.request(req)
+          unless /^2\d\d$/ =~ result.code.to_s
+            raise "Server response error #{result.code} #{path} #{params} #{result.message} #{result.body}"
+          end
+          puts "Response #{result.code} #{result.message}: #{result.body}"
+          JSON.parse(result.body)
     end
     private
     def connection_options
@@ -29,7 +32,7 @@ end
 
 simple_client = SimpleClient.new(access_token: token)
 
-result = simple_client.post("/v2/droplets/31475/actions", {
+result = simple_client.post("/v2/droplets/31503/actions", {
   :type => 'rebuild',
   :image => '123'
 })
