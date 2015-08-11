@@ -141,3 +141,5 @@ To release a new version of vagrant-simplecloud you will need to do the followin
 4. Then, when John Doe runs the following, they will receive the updated vagrant-simplecloud plugin:
     * `vagrant plugin update`
     * `vagrant plugin update vagrant-simplecloud`
+    * `export DO_TOKEN="digital ocean type token"`
+    * `vagrant up --provider=simple_cloud`
