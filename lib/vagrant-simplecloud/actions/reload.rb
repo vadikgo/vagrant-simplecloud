@@ -10,12 +10,13 @@ module VagrantPlugins
           @app = app
           @machine = env[:machine]
           @client = client
+          @simple_client = simple_client
           @logger = Log4r::Logger.new('vagrant::simplecloud::reload')
         end
 
         def call(env)
           # submit reboot droplet request
-          result = @client.post("/v2/droplets/#{@machine.id}/actions", {
+          result = @simple_client.post("/v2/droplets/#{@machine.id}/actions", {
             :type => 'reboot'
           })
 
@@ -29,5 +30,3 @@ module VagrantPlugins
     end
   end
 end
-
-

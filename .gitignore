@@ -1,3 +1,4 @@
+pkg/
 .vagrant/
 test/.vagrant/
 *.lock
