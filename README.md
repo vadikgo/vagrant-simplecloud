@@ -138,7 +138,7 @@ To release a new version of vagrant-simplecloud you will need to do the followin
 3. You will then need to build and push the new gem to RubyGems:
     * `rake gem:build`
     * `gem push pkg/vagrant-simplecloud-0.7.6.gem`
-4. Then, when John Doe runs the following, they will receive the updated vagrant-simplecloud plugin:
+4. Then, when repo owner the following, they will receive the updated vagrant-simplecloud plugin:
     * `vagrant plugin update`
     * `export DO_TOKEN="digital ocean type token"`
     * `vagrant up --provider=simple_cloud`
