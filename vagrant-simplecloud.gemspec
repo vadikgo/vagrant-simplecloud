@@ -6,9 +6,9 @@ require 'vagrant-simplecloud/version'
 Gem::Specification.new do |gem|
   gem.name          = "vagrant-simplecloud"
   gem.version       = VagrantPlugins::SimpleCloud::VERSION
-  gem.authors       = ["John Bender"]
-  gem.email         = ["john.m.bender@gmail.com"]
-  gem.description   = %q{Enables Vagrant to manage Simple Cloud droplets}
+  gem.authors       = ["John Bender", "vadikgo"]
+  gem.email         = ["vadikgo@gmail.com"]
+  gem.description   = %q{Enables Vagrant to manage Simple Cloud droplets. Based on https://github.com/smdahlen/vagrant-digitalocean}
   gem.summary       = gem.description
 
   gem.files         = `git ls-files`.split($/)
