@@ -16,9 +16,7 @@ module VagrantPlugins
 
         def call(env)
           # submit reboot droplet request
-          result = @simple_client.post("/v2/droplets/#{@machine.id}/actions", {
-            :type => 'reboot'
-          })
+          result = @simple_client.post("/v2/droplets/#{@machine.id}/actions", {:type => 'reboot'})
 
           # wait for request to complete
           env[:ui].info I18n.t('vagrant_simple_cloud.info.reloading')
