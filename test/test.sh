@@ -9,6 +9,7 @@ bundle _1.7.9_ exec vagrant provision
 bundle _1.7.9_ exec vagrant reload
 bundle _1.7.9_ exec vagrant rebuild
 bundle _1.7.9_ exec vagrant halt
+bundle _1.7.9_ exec vagrant up
 bundle _1.7.9_ exec vagrant destroy
 
 cd ..
