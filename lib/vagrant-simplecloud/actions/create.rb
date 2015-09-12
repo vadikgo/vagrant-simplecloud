@@ -10,7 +10,6 @@ module VagrantPlugins
         def initialize(app, env)
           @app = app
           @machine = env[:machine]
-          @client = client
           @simple_client = simple_client
           @logger = Log4r::Logger.new('vagrant::simplecloud::create')
         end
@@ -19,16 +18,16 @@ module VagrantPlugins
           ssh_key_id = [env[:ssh_key_id]]
 
           # submit new droplet request
-          droplet = DropletKit::Droplet.new(name: @machine.config.vm.hostname || @machine.name, \
-                                            region: @machine.provider_config.region,\
-                                            size: @machine.provider_config.size, image: @machine.provider_config.image)
-          result = JSON.parse(@simple_client.droplets.create(droplet))
+          result = @simple_client.post("/v2/droplets", {:name => @machine.config.vm.hostname || @machine.name, \
+                                            :region => @machine.provider_config.region,\
+                                            :size => @machine.provider_config.size, \
+                                            :image => @machine.provider_config.image})
 
           # wait for request to complete
           env[:ui].info I18n.t('vagrant_simple_cloud.info.creating')
 
           raise 'droplet not ready, no actions_ids' unless result['droplet'].has_key?('action_ids')
-          @client.wait_for_event(env, result['droplet']['action_ids'].first)
+          @simple_client.wait_for_event(env, result['droplet']['action_ids'].first)
 
           # assign the machine id for reference in other commands
           @machine.id = result['droplet']['id'].to_s

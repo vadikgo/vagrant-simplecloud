@@ -8,7 +8,7 @@ module VagrantPlugins
       # the Simple Cloud account. A specific droplet's status
       # may be refreshed by passing :refresh => true as an option.
       def self.droplet(machine, opts = {})
-        client = Helpers::ApiClient.new(machine)
+        client = Helpers::SimpleClient.new(machine)
 
         # load status of droplets if it has not been done before
         if !@droplets

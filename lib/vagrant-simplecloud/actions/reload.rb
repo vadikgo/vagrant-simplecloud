@@ -9,7 +9,6 @@ module VagrantPlugins
         def initialize(app, env)
           @app = app
           @machine = env[:machine]
-          @client = client
           @simple_client = simple_client
           @logger = Log4r::Logger.new('vagrant::simplecloud::reload')
         end
@@ -20,7 +19,7 @@ module VagrantPlugins
 
           # wait for request to complete
           env[:ui].info I18n.t('vagrant_simple_cloud.info.reloading')
-          @client.wait_for_event(env, result['action']['id'])
+          @simple_client.wait_for_event(env, result['action']['id'])
 
           @app.call(env)
         end

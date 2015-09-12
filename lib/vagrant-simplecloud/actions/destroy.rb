@@ -9,15 +9,13 @@ module VagrantPlugins
         def initialize(app, env)
           @app = app
           @machine = env[:machine]
-          @client = client
           @simple_client = simple_client
           @logger = Log4r::Logger.new('vagrant::simplecloud::destroy')
         end
 
         def call(env)
           # submit destroy droplet request
-          @simple_client.droplets.delete(id: @machine.id)
-          #@client.delete("/v2/droplets/#{@machine.id}")
+          @simple_client.delete("/v2/droplets/#{@machine.id}")
 
           env[:ui].info I18n.t('vagrant_simple_cloud.info.destroying')
 

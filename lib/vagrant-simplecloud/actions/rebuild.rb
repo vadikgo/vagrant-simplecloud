@@ -10,28 +10,24 @@ module VagrantPlugins
         def initialize(app, env)
           @app = app
           @machine = env[:machine]
-          @client = client
           @simple_client = simple_client
           @logger = Log4r::Logger.new('vagrant::simplecloud::rebuild')
         end
 
         def call(env)
-          # look up image id
-          image_id = @simple_client.images.find(id: @machine.provider_config.image).id
+            # look up image id
+            image_id = @simple_client.request('/v2/images').fetch('images').select \
+                        {|a| a['slug'] == @machine.provider_config.image}.first['id']
 
           # submit rebuild request
           result = @simple_client.post("/v2/droplets/#{@machine.id}/actions", {
             :type => 'rebuild',
             :image => image_id
           })
-          # simple cloud api has not return region_slug in response
-          #image_id = @simple_client.images.find(id: @machine.provider_config.image).id
-          #env[:ui].info "#{@machine.id.to_s}, #{image_id}"
-          #result = JSON.parse(@simple_client.droplet_actions.rebuild(droplet_id: @machine.id, image: image_id))
 
           # wait for request to complete
           env[:ui].info I18n.t('vagrant_simple_cloud.info.rebuilding')
-          @client.wait_for_event(env, result['action']['id'])
+          @simple_client.wait_for_event(env, result['action']['id'])
 
           # refresh droplet state with provider
           Provider.droplet(@machine, :refresh => true)

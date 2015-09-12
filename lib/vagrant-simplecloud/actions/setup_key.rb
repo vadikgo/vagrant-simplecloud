@@ -9,7 +9,6 @@ module VagrantPlugins
         def initialize(app, env)
           @app = app
           @machine = env[:machine]
-          @client = client
           @simple_client = simple_client
           @logger = Log4r::Logger.new('vagrant::simplecloud::setup_key')
         end
@@ -18,17 +17,14 @@ module VagrantPlugins
         def call(env)
             ssh_key_name = @machine.provider_config.ssh_key_name
             # assigns existing ssh key id to env for use by other commands
-            @simple_client.ssh_keys.all().each do |key|
-                if key["name"] == ssh_key_name
-                    env[:ssh_key_id] = key["id"]
-                    env[:ui].info I18n.t('vagrant_simple_cloud.info.using_key', {
-                      :name => ssh_key_name
-                    })
-                    @app.call(env)
-                    return
-                end
+            res = @simple_client.request('/v2/account/keys')
+            key_data = res.fetch('ssh_keys').select {|a| a['name'] == ssh_key_name}.first
+            if key_data.nil?
+                env[:ssh_key_id] = create_ssh_key(ssh_key_name, env)
+            else
+                env[:ssh_key_id] = key_data['id']
             end
-            env[:ssh_key_id] = create_ssh_key(ssh_key_name, env)
+            env[:ui].info I18n.t('vagrant_simple_cloud.info.using_key', {:name => ssh_key_name})
             @app.call(env)
         end
 
@@ -40,12 +36,16 @@ module VagrantPlugins
           path = path[0] if path.is_a?(Array)
           path = File.expand_path(path, @machine.env.root_path)
           pub_key = SimpleCloud.public_key(path)
-          ssh_key = DropletKit::SSHKey.new(name: name, public_key: pub_key)
-          result = @simple_client.ssh_keys.create(ssh_key)
+
           env[:ui].info I18n.t('vagrant_simple_cloud.info.creating_key', {
             :name => name
           })
-          result.id
+
+          result = @simple_client.post('/v2/account/keys', {
+            :name => name,
+            :public_key => pub_key
+          })
+          result['ssh_key']['id']
         end
       end
     end
