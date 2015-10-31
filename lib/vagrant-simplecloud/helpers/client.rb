@@ -1,4 +1,5 @@
 require 'vagrant-simplecloud/helpers/result'
+require 'faraday'
 require 'json'
 require 'uri'
 require 'net/http'
